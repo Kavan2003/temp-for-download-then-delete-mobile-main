@@ -1,0 +1,809 @@
+{
+	"info": {
+		"_postman_id": "522f9805-2e3e-4d55-952e-45b28bf9cf5b",
+		"name": "Commercial-APP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32149108",
+		"_collection_link": "https://speeding-meteor-117163.postman.co/workspace/My-Workspace~febea956-9748-4ff4-8f7d-f1edaf7f9cf9/collection/32149108-522f9805-2e3e-4d55-952e-45b28bf9cf5b?action=share&source=collection_link&creator=32149108"
+	},
+	"item": [
+		{
+			"name": "login-validate-user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"ttasneem@lenovo.com\",\r\n    \"valUsr\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-user-pwd",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"kakarla.meghana@hashconnect.in\",\r\n    \"pwd\":\"$Rashmi@123$\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-gen-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"needOtp\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-resend-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"resendOtp\": true,\r\n    \"refId\": \"203f9d9d0e7b0d7dc0b367dead0c9b9c4d971119893fc995e24295799ff865951db3d775f0abaeceeaa1f19645cc23f0\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-validate-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"otp\": \"1783\",\r\n    \"refId\": \"6ce3ebcce085769a0c607539fe126772888578336627835f8270f9537c5e64b756636f448b4293a182adb5d5e259d66c\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetPwd",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYXNobWkiLCJVU0VSX0lEIjo4OSwiVVNFUk5BTUUiOiJyYXNobWkiLCJQUklWSUxFR0VTIjpbIkRhc2hib2FyZCIsIkxlYWRfTGlzdGluZyIsIkxlYWRfbGlzdGluZ19Bc3NpZ25fTGVhZF9vd25lciIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiTGVhZF9MaXN0aW5nX0FkZF9Db21wYW55IiwiQXNzaWduX0xlYWRzX0xpc3RpbmciLCJSZWplY3RlZF9MZWFkc19yZWFzc2lnbiIsIkZvbGxvd19VcF9MaXN0aW5nIiwiRm9sbG93X3VwIiwiQ29tcGFueV9NYXN0ZXIiLCJDYW1wYWlnbl9NYXN0ZXIiLCJVcGxvYWQgX0RhdGFfQnVsayBfdXBsb2FkIiwiVXBsb2FkX0RhdGFfTWFya2V0b19EeW5hbWljX3VwbG9hZCIsIkNvbXBhbnlfdG9fdXNlcl9tYXBwaW5nIiwiUmVwb3J0cyIsIlVzZXJfTWFzdGVyIiwiTWFzdGVyX3ZpZXciLCJBY2NlcHRfZXhwb3J0IiwiQWRkLUxlYWQiLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcwOTM2NjU5OSwiZXhwIjoxNzA5MzcwOTE5fQ.JJhCtgWMIfyRnBbWiNgTmdUad6UWURK_93Ha9YouAIY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newPwd\":\"$Rashmi@123$\",\r\n    \"confirmPwd\":\"$Rashmi@123$\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/admin/resetPwd",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"admin",
+						"resetPwd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetUserProfile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaW5pa2EiLCJVU0VSX0lEIjo5NiwiVVNFUk5BTUUiOiJyaW5pa2EiLCJQUklWSUxFR0VTIjpbIkRhc2hib2FyZCIsIkxlYWRfTGlzdGluZyIsIkxlYWRfbGlzdGluZ19Bc3NpZ25fTGVhZF9vd25lciIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiTGVhZF9MaXN0aW5nX0FkZF9Db21wYW55IiwiQXNzaWduX0xlYWRzX0xpc3RpbmciLCJSZWplY3RlZF9MZWFkc19yZWFzc2lnbiIsIkZvbGxvd19VcF9MaXN0aW5nIiwiRm9sbG93X3VwIiwiQ29tcGFueV9NYXN0ZXIiLCJDYW1wYWlnbl9NYXN0ZXIiLCJVcGxvYWQgX0RhdGFfQnVsayBfdXBsb2FkIiwiVXBsb2FkX0RhdGFfTWFya2V0b19EeW5hbWljX3VwbG9hZCIsIkNvbXBhbnlfdG9fdXNlcl9tYXBwaW5nIiwiUmVwb3J0cyIsIlVzZXJfTWFzdGVyIiwiTWFzdGVyX3ZpZXciLCJBY2NlcHRfZXhwb3J0IiwiQWRkLUxlYWQiLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcwOTM4Mzg2NiwiZXhwIjoxNzA5Mzg4MTg2fQ.QuTziFBGgGHKBd5Wi5FgU0YNzpExvT8VSkZkgzKEOfw",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\":\"rinika\",\r\n    \"last_name\":\"v\",\r\n    \"whatsapp\":\"8588040867\",\r\n    \"email\":\"rinika@hashconnect.in@hashconnect.in\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/admin/resetUserProfile",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"admin",
+						"resetUserProfile"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User-Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaW5pa2EiLCJVU0VSX0lEIjo5NiwiVVNFUk5BTUUiOiJyaW5pa2EiLCJQUklWSUxFR0VTIjpbIkRhc2hib2FyZCIsIkxlYWRfTGlzdGluZyIsIkxlYWRfbGlzdGluZ19Bc3NpZ25fTGVhZF9vd25lciIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiTGVhZF9MaXN0aW5nX0FkZF9Db21wYW55IiwiQXNzaWduX0xlYWRzX0xpc3RpbmciLCJSZWplY3RlZF9MZWFkc19yZWFzc2lnbiIsIkZvbGxvd19VcF9MaXN0aW5nIiwiRm9sbG93X3VwIiwiQ29tcGFueV9NYXN0ZXIiLCJDYW1wYWlnbl9NYXN0ZXIiLCJVcGxvYWQgX0RhdGFfQnVsayBfdXBsb2FkIiwiVXBsb2FkX0RhdGFfTWFya2V0b19EeW5hbWljX3VwbG9hZCIsIkNvbXBhbnlfdG9fdXNlcl9tYXBwaW5nIiwiUmVwb3J0cyIsIlVzZXJfTWFzdGVyIiwiTWFzdGVyX3ZpZXciLCJBY2NlcHRfZXhwb3J0IiwiQWRkLUxlYWQiLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcwOTM4Mzg2NiwiZXhwIjoxNzA5Mzg4MTg2fQ.QuTziFBGgGHKBd5Wi5FgU0YNzpExvT8VSkZkgzKEOfw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": "/C:/Users/Meghana.K/Downloads/profile.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/admin/profile",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"admin",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "follow-up-lead-listing",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYXNobWkiLCJVU0VSX0lEIjo4OSwiVVNFUk5BTUUiOiJyYXNobWkiLCJQUklWSUxFR0VTIjpbIkRhc2hib2FyZCIsIkxlYWRfTGlzdGluZyIsIkxlYWRfbGlzdGluZ19Bc3NpZ25fTGVhZF9vd25lciIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiTGVhZF9MaXN0aW5nX0FkZF9Db21wYW55IiwiQXNzaWduX0xlYWRzX0xpc3RpbmciLCJSZWplY3RlZF9MZWFkc19yZWFzc2lnbiIsIkZvbGxvd19VcF9MaXN0aW5nIiwiRm9sbG93X3VwIiwiQ29tcGFueV9NYXN0ZXIiLCJDYW1wYWlnbl9NYXN0ZXIiLCJVcGxvYWQgX0RhdGFfQnVsayBfdXBsb2FkIiwiVXBsb2FkX0RhdGFfTWFya2V0b19EeW5hbWljX3VwbG9hZCIsIkNvbXBhbnlfdG9fdXNlcl9tYXBwaW5nIiwiUmVwb3J0cyIsIlVzZXJfTWFzdGVyIiwiTWFzdGVyX3ZpZXciLCJBY2NlcHRfZXhwb3J0IiwiQWRkLUxlYWQiLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcwOTUzNjA1OCwiZXhwIjoxNzA5NTQwMzc4fQ.wNQa-MtFnIY-RqItHAV10scfZIqapzR_QtJsQsO2jk4"
+					},
+					{
+						"key": "compId",
+						"value": "11584",
+						"disabled": true
+					},
+					{
+						"key": "stDtGrEq",
+						"value": "2024-02-16",
+						"disabled": true
+					},
+					{
+						"key": "enDtLsEq",
+						"value": "2024-02-20",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/common/follow-up-leads?start=0&size=4",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"common",
+						"follow-up-leads"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mobile-dashboard",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJXIiwiVVNFUl9JRCI6MTEwLCJVU0VSTkFNRSI6IlciLCJQUklWSUxFR0VTIjpbIkxlYWRfTGlzdGluZyIsIkxlYWRfTGlzdGluZ19TdGF0dXNfdXBkYXRlIiwiTGVhZF9MaXN0aW5nX1ZpZXdfU2luZ2xlX0xlYWQiLCJGb2xsb3dfVXBfTGlzdGluZyIsIlJlcG9ydHMiLCJTdGF0dXNfVXBkYXRlIiwiTWFzdGVyX3ZpZXciLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIiwibW9iaWxlLWRhc2hib2FyZCJdLCJST0xFIjoiU0FMRV9QRVJTT04iLCJpYXQiOjE3MDk1NTc2NjAsImV4cCI6MTcwOTU2MTk4MH0.vf_geGAV_1In4GsFvX7lLRm_WKFSADnHz9CdDtBYNCQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/common/mobile-dashboard?stDtGrEq=2024-03-01 00:00:00&enDtLsEq=2024-03-04 23:59:59",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"common",
+						"mobile-dashboard"
+					],
+					"query": [
+						{
+							"key": "stDtGrEq",
+							"value": "2024-03-01 00:00:00"
+						},
+						{
+							"key": "enDtLsEq",
+							"value": "2024-03-04 23:59:59"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accept-leads-listing with filter",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMDg1NzAwMywiZXhwIjoxNzEwODYxMzIzfQ.VkyRhVUzvaEPIP1EHgvpAbfFBQD1xbqBWkAoExOat8Y",
+						"type": "text"
+					},
+					{
+						"key": "sourceIdIn",
+						"value": "9",
+						"type": "text"
+					},
+					{
+						"key": "productIn",
+						"value": "2",
+						"type": "text"
+					},
+					{
+						"key": "purchaseTimeIn",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "stDtGrEq",
+						"value": "2024-02-16",
+						"type": "text"
+					},
+					{
+						"key": "enDtLsEq",
+						"value": "2024-02-20",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/common/accept-leads-listing?start=0&size=10",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"common",
+						"accept-leads-listing"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "source",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMDg1NzAwMywiZXhwIjoxNzEwODYxMzIzfQ.VkyRhVUzvaEPIP1EHgvpAbfFBQD1xbqBWkAoExOat8Y",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/common/source",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"common",
+						"source"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchase-time-frame",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMDg1ODQ1NCwiZXhwIjoxNzEwODYyNzc0fQ.lBRHQz12qA7lDsg2vyloNN1MU3VRKPdN5xzq6sywXi0",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/common/purchase-time-frame",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"common",
+						"purchase-time-frame"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "product",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMDg1ODUzNiwiZXhwIjoxNzEwODYyODU2fQ.Gl6SdgCNrnAYlMbH9Tb2ahUAxPJhFC8sI4f3vyJ7g1Q",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/common/product",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"common",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All leadList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMDg1ODc5MiwiZXhwIjoxNzEwODYzMTEyfQ.zV5FlYxXt9k0WOkrwDefwmqA8uhST7QClah9q_e77UU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/lead/common/leadList?start=0&size=10",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"lead",
+						"common",
+						"leadList"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "lead-status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMDg1ODc5MiwiZXhwIjoxNzEwODYzMTEyfQ.zV5FlYxXt9k0WOkrwDefwmqA8uhST7QClah9q_e77UU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/common/lead-status",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"common",
+						"lead-status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "lead-substatus?id=4",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMDg1ODc5MiwiZXhwIjoxNzEwODYzMTEyfQ.zV5FlYxXt9k0WOkrwDefwmqA8uhST7QClah9q_e77UU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/lead/common/lead-substatus?id=4",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"lead",
+						"common",
+						"lead-substatus"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add-note",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJXYXJhbmEiLCJVU0VSX0lEIjoxMTAsIlVTRVJOQU1FIjoiV2FyYW5hIiwiUFJJVklMRUdFUyI6WyJMZWFkX0xpc3RpbmciLCJMZWFkX0xpc3RpbmdfU3RhdHVzX3VwZGF0ZSIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiRm9sbG93X1VwX0xpc3RpbmciLCJSZXBvcnRzIiwiU3RhdHVzX1VwZGF0ZSIsIk1hc3Rlcl92aWV3IiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsIm1vYmlsZS1kYXNoYm9hcmQiLCJ1bml2ZXJzYWwtc2VhcmNoIiwibW9iaWxlLWFkZC1ub3RlIl0sIlJPTEUiOiJTQUxFX1BFUlNPTiIsImlhdCI6MTcxMTAyNTM4MiwiZXhwIjoxNzExMDI5NzAyfQ.Zj6eCa9DFk_H-vhLUacTu1TKXgr2zarpoGKU0BXXgAU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lead_id\":11106,\r\n    \"user_id\":116,\r\n    \"interaction_notes\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/lead/common/mobile-add-note",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"lead",
+						"common",
+						"mobile-add-note"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "11106",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Notes-count-lead",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJXYXJhbmEiLCJVU0VSX0lEIjoxMTAsIlVTRVJOQU1FIjoiV2FyYW5hIiwiUFJJVklMRUdFUyI6WyJMZWFkX0xpc3RpbmciLCJMZWFkX0xpc3RpbmdfU3RhdHVzX3VwZGF0ZSIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiRm9sbG93X1VwX0xpc3RpbmciLCJSZXBvcnRzIiwiU3RhdHVzX1VwZGF0ZSIsIk1hc3Rlcl92aWV3IiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsIm1vYmlsZS1kYXNoYm9hcmQiLCJ1bml2ZXJzYWwtc2VhcmNoIiwibW9iaWxlLWFkZC1ub3RlIl0sIlJPTEUiOiJTQUxFX1BFUlNPTiIsImlhdCI6MTcxMTAyNTM4MiwiZXhwIjoxNzExMDI5NzAyfQ.Zj6eCa9DFk_H-vhLUacTu1TKXgr2zarpoGKU0BXXgAU"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/lead/common/mobile-add-note?id=11106",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"lead",
+						"common",
+						"mobile-add-note"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "11106"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "lead-substatus-update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJXYXJhbmEiLCJVU0VSX0lEIjoxMTAsIlVTRVJOQU1FIjoiV2FyYW5hIiwiUFJJVklMRUdFUyI6WyJMZWFkX0xpc3RpbmciLCJMZWFkX0xpc3RpbmdfU3RhdHVzX3VwZGF0ZSIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiRm9sbG93X1VwX0xpc3RpbmciLCJSZXBvcnRzIiwiU3RhdHVzX1VwZGF0ZSIsIk1hc3Rlcl92aWV3IiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsIm1vYmlsZS1kYXNoYm9hcmQiLCJ1bml2ZXJzYWwtc2VhcmNoIiwibW9iaWxlLWFkZC1ub3RlIl0sIlJPTEUiOiJTQUxFX1BFUlNPTiIsImlhdCI6MTcxMTAyNTM4MiwiZXhwIjoxNzExMDI5NzAyfQ.Zj6eCa9DFk_H-vhLUacTu1TKXgr2zarpoGKU0BXXgAU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 11231,\r\n    \"status\": 4,\r\n    \"substatus\": 25,\r\n    \"user_id\": \"110\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/lead/common/lead-substatus",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"lead",
+						"common",
+						"lead-substatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": " search",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSaW5pa2EiLCJVU0VSX0lEIjoxMTYsIlVTRVJOQU1FIjoiUmluaWthIiwiUFJJVklMRUdFUyI6WyJEYXNoYm9hcmQiLCJMZWFkX0xpc3RpbmciLCJMZWFkX2xpc3RpbmdfQXNzaWduX0xlYWRfb3duZXIiLCJMZWFkX0xpc3RpbmdfVmlld19TaW5nbGVfTGVhZCIsIkxlYWRfTGlzdGluZ19BZGRfQ29tcGFueSIsIkFzc2lnbl9MZWFkc19MaXN0aW5nIiwiUmVqZWN0ZWRfTGVhZHNfcmVhc3NpZ24iLCJGb2xsb3dfVXBfTGlzdGluZyIsIkZvbGxvd191cCIsIkNvbXBhbnlfTWFzdGVyIiwiQ2FtcGFpZ25fTWFzdGVyIiwiVXBsb2FkIF9EYXRhX0J1bGsgX3VwbG9hZCIsIlVwbG9hZF9EYXRhX01hcmtldG9fRHluYW1pY191cGxvYWQiLCJDb21wYW55X3RvX3VzZXJfbWFwcGluZyIsIlJlcG9ydHMiLCJVc2VyX01hc3RlciIsIk1hc3Rlcl92aWV3IiwiQWNjZXB0X2V4cG9ydCIsIkFkZC1MZWFkIiwiQ29tcGFueV9saXN0aW5nX0ZpbHRlciIsInVzZXItcHJvZmlsZSIsInVuaXZlcnNhbC1zZWFyY2giLCJkYXNoYm9hcmQtY29tcGFueS12aWV3LWxlYWRzIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcxMTAwOTYxMiwiZXhwIjoxNzExMDEzOTMyfQ.oD7PvC-O5RS1RxzHUbBpAyxnkIGWwwjFnVNixZb619M",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/ui/search?start=0&size=20&search=Warana Arana&page=lead",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"ui",
+						"search"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "20"
+						},
+						{
+							"key": "search",
+							"value": "Warana Arana"
+						},
+						{
+							"key": "page",
+							"value": "lead"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

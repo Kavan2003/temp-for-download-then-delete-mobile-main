@@ -1,0 +1,296 @@
+{
+	"info": {
+		"_postman_id": "522f9805-2e3e-4d55-952e-45b28bf9cf5b",
+		"name": "Commercial-APP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32149108",
+		"_collection_link": "https://speeding-meteor-117163.postman.co/workspace/My-Workspace~febea956-9748-4ff4-8f7d-f1edaf7f9cf9/collection/32149108-522f9805-2e3e-4d55-952e-45b28bf9cf5b?action=share&source=collection_link&creator=32149108"
+	},
+	"item": [
+		{
+			"name": "login-validate-user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"ttasneem@lenovo.com\",\r\n    \"valUsr\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-user-pwd",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"rashmi_hariwan@hashconnect.in\",\r\n    \"pwd\":\"$Rashmi@123$\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-gen-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"needOtp\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-resend-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"resendOtp\": true,\r\n    \"refId\": \"203f9d9d0e7b0d7dc0b367dead0c9b9c4d971119893fc995e24295799ff865951db3d775f0abaeceeaa1f19645cc23f0\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-validate-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"otp\": \"1783\",\r\n    \"refId\": \"6ce3ebcce085769a0c607539fe126772888578336627835f8270f9537c5e64b756636f448b4293a182adb5d5e259d66c\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetPwd",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYXNobWkiLCJVU0VSX0lEIjo4OSwiVVNFUk5BTUUiOiJyYXNobWkiLCJQUklWSUxFR0VTIjpbIkRhc2hib2FyZCIsIkxlYWRfTGlzdGluZyIsIkxlYWRfbGlzdGluZ19Bc3NpZ25fTGVhZF9vd25lciIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiTGVhZF9MaXN0aW5nX0FkZF9Db21wYW55IiwiQXNzaWduX0xlYWRzX0xpc3RpbmciLCJSZWplY3RlZF9MZWFkc19yZWFzc2lnbiIsIkZvbGxvd19VcF9MaXN0aW5nIiwiRm9sbG93X3VwIiwiQ29tcGFueV9NYXN0ZXIiLCJDYW1wYWlnbl9NYXN0ZXIiLCJVcGxvYWQgX0RhdGFfQnVsayBfdXBsb2FkIiwiVXBsb2FkX0RhdGFfTWFya2V0b19EeW5hbWljX3VwbG9hZCIsIkNvbXBhbnlfdG9fdXNlcl9tYXBwaW5nIiwiUmVwb3J0cyIsIlVzZXJfTWFzdGVyIiwiTWFzdGVyX3ZpZXciLCJBY2NlcHRfZXhwb3J0IiwiQWRkLUxlYWQiLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcwOTM2NjU5OSwiZXhwIjoxNzA5MzcwOTE5fQ.JJhCtgWMIfyRnBbWiNgTmdUad6UWURK_93Ha9YouAIY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newPwd\":\"$Rashmi@123$\",\r\n    \"confirmPwd\":\"$Rashmi@123$\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/admin/resetPwd",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"admin",
+						"resetPwd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resetUserProfile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaW5pa2EiLCJVU0VSX0lEIjo5NiwiVVNFUk5BTUUiOiJyaW5pa2EiLCJQUklWSUxFR0VTIjpbIkRhc2hib2FyZCIsIkxlYWRfTGlzdGluZyIsIkxlYWRfbGlzdGluZ19Bc3NpZ25fTGVhZF9vd25lciIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiTGVhZF9MaXN0aW5nX0FkZF9Db21wYW55IiwiQXNzaWduX0xlYWRzX0xpc3RpbmciLCJSZWplY3RlZF9MZWFkc19yZWFzc2lnbiIsIkZvbGxvd19VcF9MaXN0aW5nIiwiRm9sbG93X3VwIiwiQ29tcGFueV9NYXN0ZXIiLCJDYW1wYWlnbl9NYXN0ZXIiLCJVcGxvYWQgX0RhdGFfQnVsayBfdXBsb2FkIiwiVXBsb2FkX0RhdGFfTWFya2V0b19EeW5hbWljX3VwbG9hZCIsIkNvbXBhbnlfdG9fdXNlcl9tYXBwaW5nIiwiUmVwb3J0cyIsIlVzZXJfTWFzdGVyIiwiTWFzdGVyX3ZpZXciLCJBY2NlcHRfZXhwb3J0IiwiQWRkLUxlYWQiLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcwOTM4Mzg2NiwiZXhwIjoxNzA5Mzg4MTg2fQ.QuTziFBGgGHKBd5Wi5FgU0YNzpExvT8VSkZkgzKEOfw",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\":\"rinika\",\r\n    \"last_name\":\"v\",\r\n    \"whatsapp\":\"8588040867\",\r\n    \"email\":\"rinika@hashconnect.in@hashconnect.in\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/admin/resetUserProfile",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"admin",
+						"resetUserProfile"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User-Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaW5pa2EiLCJVU0VSX0lEIjo5NiwiVVNFUk5BTUUiOiJyaW5pa2EiLCJQUklWSUxFR0VTIjpbIkRhc2hib2FyZCIsIkxlYWRfTGlzdGluZyIsIkxlYWRfbGlzdGluZ19Bc3NpZ25fTGVhZF9vd25lciIsIkxlYWRfTGlzdGluZ19WaWV3X1NpbmdsZV9MZWFkIiwiTGVhZF9MaXN0aW5nX0FkZF9Db21wYW55IiwiQXNzaWduX0xlYWRzX0xpc3RpbmciLCJSZWplY3RlZF9MZWFkc19yZWFzc2lnbiIsIkZvbGxvd19VcF9MaXN0aW5nIiwiRm9sbG93X3VwIiwiQ29tcGFueV9NYXN0ZXIiLCJDYW1wYWlnbl9NYXN0ZXIiLCJVcGxvYWQgX0RhdGFfQnVsayBfdXBsb2FkIiwiVXBsb2FkX0RhdGFfTWFya2V0b19EeW5hbWljX3VwbG9hZCIsIkNvbXBhbnlfdG9fdXNlcl9tYXBwaW5nIiwiUmVwb3J0cyIsIlVzZXJfTWFzdGVyIiwiTWFzdGVyX3ZpZXciLCJBY2NlcHRfZXhwb3J0IiwiQWRkLUxlYWQiLCJDb21wYW55X2xpc3RpbmdfRmlsdGVyIiwidXNlci1wcm9maWxlIl0sIlJPTEUiOiJTVVBFUl9BRE1JTiIsImlhdCI6MTcwOTM4Mzg2NiwiZXhwIjoxNzA5Mzg4MTg2fQ.QuTziFBGgGHKBd5Wi5FgU0YNzpExvT8VSkZkgzKEOfw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": "/C:/Users/Meghana.K/Downloads/profile.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/admin/profile",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"admin",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "522f9805-2e3e-4d55-952e-45b28bf9cf5b",
+		"name": "Commercial-APP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32149108",
+		"_collection_link": "https://speeding-meteor-117163.postman.co/workspace/febea956-9748-4ff4-8f7d-f1edaf7f9cf9/collection/32149108-522f9805-2e3e-4d55-952e-45b28bf9cf5b?action=share&source=collection_link&creator=32149108"
+	},
+	"item": [
+		{
+			"name": "login-validate-user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"ttasneem@lenovo.com\",\r\n    \"valUsr\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-user-pwd",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"rashmi_hariwan@hashconnect.in\",\r\n    \"pwd\":\"$Rashmi@123$\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-gen-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"needOtp\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-resend-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"resendOtp\": true,\r\n    \"refId\": \"203f9d9d0e7b0d7dc0b367dead0c9b9c4d971119893fc995e24295799ff865951db3d775f0abaeceeaa1f19645cc23f0\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-validate-otp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"un\":\"9986362225\",\r\n    \"otp\": \"1783\",\r\n    \"refId\": \"6ce3ebcce085769a0c607539fe126772888578336627835f8270f9537c5e64b756636f448b4293a182adb5d5e259d66c\"\r\n}"
+				},
+				"url": {
+					"raw": "https://clms-lenovo1.hashconnect.in/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"clms-lenovo1",
+						"hashconnect",
+						"in"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
