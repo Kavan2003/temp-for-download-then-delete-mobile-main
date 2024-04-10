@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lenovo_app/screens/accepted_leads_page.dart';
 import 'package:lenovo_app/screens/follow_up_page.dart';
+import 'package:lenovo_app/screens/home_page.dart';
 import 'package:lenovo_app/screens/manager_page.dart';
 import 'package:lenovo_app/services/folloup_lead.dart';
 import 'package:lenovo_app/services/mobile_dashboard.dart';
@@ -18,7 +19,7 @@ class HCard extends StatefulWidget {
 class _HCardState extends State<HCard> {
   Map<String, dynamic>? dashboardData;
   List<dynamic> followUpLeads = [];
-
+  //final globalPageController = GlobalPageController();
   @override
   void initState() {
     super.initState();
@@ -245,12 +246,10 @@ class _HCardState extends State<HCard> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Manage(initialTabIndex: 2),
-                    ),
-                  );
+                  //  pageController.jumpTo(1)
+                  setState(() {
+                    globalPageController.setPage(1);
+                  });
                 },
                 child: Text(
                   'View all',

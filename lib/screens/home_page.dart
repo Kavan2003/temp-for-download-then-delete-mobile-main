@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'package:lenovo_app/utils/app_persist.dart';
 import 'package:lenovo_app/utils/app_strings.dart';
 
 import '../constants/imageConstants.dart';
+
+final globalPageController = GlobalPageController();
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -51,13 +54,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   int selectedindex = 0;
-  PageController pageController = PageController();
+  //PageController pageController = PageController();
 
   void onTapped(int index) {
     setState(() {
       selectedindex = index;
+      globalPageController.setPage(0);
     });
-    pageController.jumpToPage(index);
+    globalPageController.setPage(index);
   }
 
   @override
@@ -155,10 +159,41 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ),
       ),
-      body: PageView(
-        controller: pageController,
-        children: [const Home(), Manage(initialTabIndex: 2)],
+      body: StreamBuilder<int>(
+        stream: globalPageController.pageStream,
+        builder: (context, snapshot) {
+          return PageView(
+            controller: globalPageController.pageController,
+            children: [const Home(), Manage(initialTabIndex: 2)],
+          );
+        },
       ),
     );
+  }
+}
+
+class GlobalPageController {
+  final _pageController = PageController();
+  final _pageStreamController = StreamController<int>.broadcast();
+  int a = 0;
+
+  PageController get pageController => _pageController;
+  Stream<int> get pageStream => _pageStreamController.stream;
+
+  void setPage(int page) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _pageController.jumpToPage(page);
+      _pageStreamController.add(page);
+      a = page;
+    });
+  }
+
+  int getindex() {
+    return a;
+  }
+
+  void dispose() {
+    _pageController.dispose();
+    _pageStreamController.close();
   }
 }
