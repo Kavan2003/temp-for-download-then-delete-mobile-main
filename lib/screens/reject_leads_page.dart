@@ -498,7 +498,7 @@ class _RejectLeadsPageState extends State<RejectLeadsPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                showUpdateStatusDialog(context);
+                                //      showUpdateStatusDialog(context);
                               },
                               child: Row(
                                 children: [

@@ -539,7 +539,7 @@ class _NewLeadsPageState extends State<NewLeadsPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                showUpdateStatusDialog(context);
+                                //   showUpdateStatusDialog(context);
                               },
                               child: Row(
                                 children: [

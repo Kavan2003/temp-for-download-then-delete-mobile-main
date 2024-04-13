@@ -542,7 +542,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                showUpdateStatusDialog(context);
+                                //       showUpdateStatusDialog(context);
                               },
                               child: Row(
                                 children: [

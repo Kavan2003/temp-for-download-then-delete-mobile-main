@@ -66,6 +66,7 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
   }
 
   Future<void> _fetchLeadData() async {
+    fetchLeadList = [];
     try {
       final List<dynamic> data =
           await fetchLeadData(); // Call fetchLeadData and await the result
@@ -478,12 +479,15 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                       children: [
                                         Row(
                                           children: [
-                                            AppText(
-                                              text:
-                                                  "product_group: ${record['product_group']}",
-                                              height: 0.018,
-                                              fontWeight: FontWeight.w500,
-                                              color: ColorConstants.greyColor,
+                                            SizedBox(
+                                              width: Get.width * 0.7,
+                                              child: AppText(
+                                                text:
+                                                    "product_group: ${record['product_group']}",
+                                                height: 0.018,
+                                                fontWeight: FontWeight.w500,
+                                                color: ColorConstants.greyColor,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -608,8 +612,14 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                               color: ColorConstants.greyColor,
                             ),
                             GestureDetector(
-                              onTap: () {
-                                showUpdateStatusDialog(context);
+                              onTap: () async {
+                                log("messageid = ${record['lead_id']}");
+                                final update = await showUpdateStatusDialog(
+                                    context, record['lead_id'].toString());
+                                if (update != null) {
+                                  log("_fetchLeadData");
+                                  await _fetchLeadData();
+                                }
                               },
                               child: Row(
                                 children: [
