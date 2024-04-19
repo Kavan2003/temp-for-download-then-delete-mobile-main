@@ -29,33 +29,28 @@ class StatusDialogResult {
 }
 
 Future<StatusDialogResult?> showUpdateStatusDialog(
-    BuildContext context, String itemid) async {
+  BuildContext context,
+  String itemid,
+) async {
   String? selectedLeadStatus = leadStatusOptions[0];
   String? selectedReason = reasonOptions[0];
-  bool reasonEnabled = true;
-  leadStatusOptions.clear();
-  leadStatusOptions = [
-    'Update Status',
-  ];
-  leadStatusIds.clear();
-  leadStatusIds = <int>[
-    0,
-  ];
-  reasonOptions.clear();
 
-  reasonOptions = [
-    'Reason',
-  ];
+  // Clear options to prevent data accumulation
+  leadStatusOptions.clear();
+  leadStatusOptions = ['Update Status'];
+  leadStatusIds.clear();
+  leadStatusIds = [0];
+  reasonOptions.clear();
+  reasonOptions = ['Reason'];
   reasonIds.clear();
-  reasonIds = <int>[
-    0,
-  ];
+
+  // bool reasonEnabled = false;
+  reasonIds = [0];
+
   // Fetch Lead Status data from the first API
   final leadStatusResponse = await http.get(
     Uri.parse('https://clms-lenovo1.hashconnect.in/api/ui/common/lead-status'),
-    headers: {
-      'Authorization': '${AppPersist.getString(AppStrings.token, "")}'
-    }, // Replace with your actual token
+    headers: {'Authorization': '${AppPersist.getString(AppStrings.token, "")}'},
   );
 
   if (leadStatusResponse.statusCode == 200) {
@@ -65,10 +60,13 @@ Future<StatusDialogResult?> showUpdateStatusDialog(
         leadStatusOptions.add(record['name']);
         leadStatusIds.add(record['id']);
       }
+    } else {
+      // Handle API error
+      log('Error fetching lead status data');
     }
   } else {
-    // Handle API error
-    print('Error fetching lead status data');
+    // Handle general network error
+    log('Failed to fetch lead status data (status code: ${leadStatusResponse.statusCode})');
   }
 
   // Fetch Reason data from the second API (assuming selectedLeadStatusId is available)
@@ -81,47 +79,30 @@ Future<StatusDialogResult?> showUpdateStatusDialog(
   return showDialog<StatusDialogResult>(
     context: context,
     builder: (BuildContext context) {
-      return _buildDialog(context, leadStatusOptions, reasonOptions,
-          selectedLeadStatus, selectedReason, itemid);
+      return _buildDialog(
+        context,
+        leadStatusOptions,
+        reasonOptions,
+        selectedLeadStatus,
+        selectedReason,
+        itemid,
+      );
     },
   );
 }
 
-void fetchresons(String newValue, Function param1) async {
-  log("message${newValue}");
-  final reasonResponse = await http.get(
-    Uri.parse(
-      'https://clms-lenovo1.hashconnect.in/api/lead/common/lead-substatus?id=$newValue',
-    ),
-    headers: {'Authorization': '${AppPersist.getString(AppStrings.token, "")}'},
-  );
-
-  if (reasonResponse.statusCode == 200) {
-    final reasonData = jsonDecode(reasonResponse.body);
-    print("--------------------------------${reasonResponse.body}");
-    if (reasonData['status'] == 'SUCCESS') {
-      reasonIds.clear();
-      for (final record in reasonData['records']) {
-        reasonOptions.add(record['code']);
-        reasonIds.add(record['id']);
-      }
-      param1();
-    }
-  } else {
-    // Handle API error
-    print('Error fetching reason data');
-  }
-}
-
 Widget _buildDialog(
-    BuildContext context,
-    List<String> leadStatusOptions,
-    List<String> reasonOptions,
-    String? selectedLeadStatus,
-    String? selectedReason,
-    String itemid) {
-  var selectstatusid = 0;
-  var selectresonsid = 0;
+  BuildContext context,
+  List<String> leadStatusOptions,
+  List<String> reasonOptions,
+  String? selectedLeadStatus,
+  String? selectedReason,
+  String itemid,
+) {
+  bool reasonEnabled = true;
+
+  var selectStatusId = 0; // Use a variable to hold the selected status ID
+
   return StatefulBuilder(
     builder: (context, setState) {
       return Dialog(
@@ -145,13 +126,11 @@ Widget _buildDialog(
                 ),
               ),
               SizedBox(height: 20),
-              Text(
-                'Lead Status',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0,
-                ),
-              ),
+              Text('Lead Status',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 12.0,
+                  )),
               SizedBox(height: 5),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
@@ -168,41 +147,41 @@ Widget _buildDialog(
                 onChanged: (newValue) {
                   setState(() {
                     selectedLeadStatus = newValue!;
-                    var reasonEnabled = newValue != 'Follow-up';
-                    if (!reasonEnabled) selectedReason = reasonOptions[0];
-                    selectstatusid = leadStatusOptions.lastIndexOf(newValue, 0);
-                    for (int i = 0; i < leadStatusOptions.length; i++) {
-                      if (leadStatusOptions[i] == newValue) {
-                        selectstatusid = i;
-                      }
+                    reasonEnabled = newValue != 'Follow-up';
+                    if (!reasonEnabled) {
+                      selectedReason = reasonOptions[0];
                     }
-                    setState(() {
-                      reasonOptions.add("wait");
-                    });
-                    fetchresons("${leadStatusIds[selectstatusid]}", () {
-                      setState(() {
-                        log("mecdssage");
-                        log(reasonOptions[1]);
-                        reasonOptions.remove("wait");
-                      });
-                    });
+
+                    // Find the index of the selected status
+                    selectStatusId = leadStatusOptions.indexOf(newValue);
+                    if (selectStatusId == -1) {
+                      log('Error: Selected status not found in options list');
+                      return; // Handle potential error
+                    }
+                  });
+
+                  // Clear and fetch reason options based on the selected status
+                  reasonOptions.clear();
+                  reasonIds.clear();
+                  fetchReasons(leadStatusIds[selectStatusId].toString(), () {
+                    setState(() {});
                   });
                 },
-                items: leadStatusOptions.map<DropdownMenuItem<String>>(
-                  (String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                          color: selectedLeadStatus == value
-                              ? Colors.red
-                              : Colors.black,
+                items: leadStatusOptions
+                    .map<DropdownMenuItem<String>>(
+                      (String value) => DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            color: selectedLeadStatus == value
+                                ? Colors.red
+                                : Colors.black,
+                          ),
                         ),
                       ),
-                    );
-                  },
-                ).toList(),
+                    )
+                    .toList(),
               ),
               SizedBox(height: 10),
               Text(
@@ -213,45 +192,42 @@ Widget _buildDialog(
                 ),
               ),
               SizedBox(height: 5),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                    ),
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  fillColor: Colors.grey[200],
-                  filled: true,
-                ),
-                value: selectedReason,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedReason = newValue!;
-                    selectresonsid = reasonOptions.lastIndexOf(newValue, 0);
-                    for (int i = 0; i < reasonOptions.length; i++) {
-                      if (reasonOptions[i] == newValue) {
-                        selectresonsid = i;
-                      }
-                    }
-                  });
-                },
-                items: reasonOptions.map<DropdownMenuItem<String>>(
-                  (String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                          color: selectedReason == value
-                              ? Colors.red
-                              : Colors.black,
+              if (reasonOptions != null)
+                Builder(builder: (context) {
+                  if (reasonOptions.isEmpty) reasonOptions.add("");
+                  return DropdownButtonFormField<String?>(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
                         ),
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
-                    );
-                  },
-                ).toList(),
-              ),
+                      fillColor: Colors.grey[200],
+                      filled: true,
+                    ),
+                    value: selectedReason,
+                    enableFeedback:
+                        reasonEnabled, // Disable reason dropdown if not applicable
+                    onChanged: (newValue) =>
+                        setState(() => selectedReason = newValue!),
+                    items: reasonOptions
+                        .map<DropdownMenuItem<String?>>(
+                          (String value) => DropdownMenuItem<String?>(
+                            value: value ?? "",
+                            child: Text(
+                              value ?? "",
+                              style: TextStyle(
+                                color: selectedReason == value
+                                    ? Colors.red
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  );
+                }),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -264,24 +240,24 @@ Widget _buildDialog(
                       ),
                     ),
                     onPressed: () async {
-                      if (selectedLeadStatus == 'Accepted' ||
-                          selectedLeadStatus == 'Rejected') {
-                        if (selectedReason == 'Reason') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Please select a reason.'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                          return;
-                        }
+                      if ((selectedLeadStatus == 'Accepted' ||
+                              selectedLeadStatus == 'Rejected') &&
+                          selectedReason == 'Reason') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Please select a reason.'),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        return;
                       }
 
                       try {
                         await updateLeadSubstatus(
                             itemid,
-                            selectstatusid.toString(),
-                            selectresonsid.toString());
+                            selectStatusId.toString(),
+                            reasonIds[reasonOptions.indexOf(selectedReason!)]
+                                .toString());
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Lead status updated successfully.'),
@@ -309,9 +285,7 @@ Widget _buildDialog(
                         color: Colors.black,
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
               ),
@@ -321,4 +295,33 @@ Widget _buildDialog(
       );
     },
   );
+}
+
+void fetchReasons(String newValue, Function param1) async {
+  log("message${newValue}");
+  final reasonResponse = await http.get(
+    Uri.parse(
+      'https://clms-lenovo1.hashconnect.in/api/lead/common/lead-substatus?id=$newValue',
+    ),
+    headers: {'Authorization': '${AppPersist.getString(AppStrings.token, "")}'},
+  );
+
+  if (reasonResponse.statusCode == 200) {
+    final reasonData = jsonDecode(reasonResponse.body);
+    if (reasonData['status'] == 'SUCCESS') {
+      reasonOptions.clear();
+      reasonIds.clear();
+      for (final record in reasonData['records']) {
+        reasonOptions.add(record['code']);
+        reasonIds.add(record['id']);
+      }
+      param1();
+    } else {
+      // Handle API error
+      log('Error fetching reason data: ${reasonData['message']}');
+    }
+  } else {
+    // Handle general network error
+    log('Failed to fetch reason data (status code: ${reasonResponse.statusCode})');
+  }
 }

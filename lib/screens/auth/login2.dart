@@ -176,8 +176,8 @@ class _PhoneState extends State<Phone> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const OtpScreen(
-                                          param: {},
+                                    builder: (context) => OtpScreen(
+                                          param: {"un": "${_phone.text}"},
                                         )));
                           },
                           child: const Text(
@@ -213,7 +213,7 @@ class _PhoneState extends State<Phone> {
                           Map<String, dynamic> param = {"un": _phone.text};
 
                           BlocProvider.of<AuthBloc>(context)
-                              .add(AuthCheckUsername(param));
+                              .add(AuthGenerateOtp(param));
                         } else {
                           Map<String, dynamic> param = {
                             "un": _phone.text,

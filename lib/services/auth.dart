@@ -63,20 +63,25 @@ class AuthServices {
           await http.post(headers: headers, url, body: jsonEncode(body));
 
       debugPrint("response : ${response.body}");
+
       var data = jsonDecode(response.body);
 
-      await AppPersist.setString(
-          AppStrings.userId, data['data']['userId'].toString());
-      await AppPersist.setString(AppStrings.role, data['data']['role']);
-      await AppPersist.setString(AppStrings.userName, data['data']['userName']);
+      if (data["status"] == "FAILED") {
+        return "";
+      }
 
-      await AppPersist.setString(AppStrings.token, data['data']['token']);
       await AppPersist.setString(
-          AppStrings.privileges, data['data']['privileges'].toString());
+          AppStrings.userId, "${data['data']['userId']}");
+      await AppPersist.setString(AppStrings.role, "${data['data']['role']}");
       await AppPersist.setString(
-          AppStrings.userimage, data['data']['profile'].toString());
+          AppStrings.userName, "${data['data']['userName']}");
+
+      await AppPersist.setString(AppStrings.token, "${data['data']['token']}");
       await AppPersist.setString(
-          AppStrings.role, data['data']['role'].toString());
+          AppStrings.privileges, "${data['data']['privileges']}");
+      await AppPersist.setString(
+          AppStrings.userimage, "${data['data']['profile']}");
+      await AppPersist.setString(AppStrings.role, "${data['data']['role']}");
 
       // print(
       //     "~~~ Type : ${data['data']['privileges'].runtimeType} ::: ${data['data']['privileges']}");

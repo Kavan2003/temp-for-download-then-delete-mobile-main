@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:intl/intl.dart';
 import 'package:lenovo_app/Widget/appText.dart';
 import 'package:lenovo_app/constants/colorConstants.dart';
@@ -17,7 +19,56 @@ import 'package:lenovo_app/screens/searchScreen.dart';
 import 'package:lenovo_app/screens/update_note.dart';
 import 'package:lenovo_app/services/accept_lead_filter.dart';
 import 'package:lenovo_app/services/all_leadlist.dart';
+import 'package:lenovo_app/utils/app_persist.dart';
+import 'package:lenovo_app/utils/app_strings.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+Future<List<String>> fetchNotes(String id) async {
+  // Construct the API request URL
+  // final url = Uri.parse(
+  //     '');
+
+  // Create a GET request with authorization header
+  // final request = http.Request('GET', url);
+  // request.headers.addAll({
+  //   'Authorization': AppPersist.getString(AppStrings.token, ""),
+  // });
+
+  try {
+    // final response = await request.send();
+    final String apiUrl =
+        'https://clms-lenovo1.hashconnect.in/api/lead/common/mobile-add-note?id=$id';
+    final String token = AppPersist.getString(AppStrings.token, "");
+    final Map<String, String> headers = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+    };
+
+    final response = await http.get(
+      Uri.parse(apiUrl),
+      headers: headers,
+    );
+
+    // Check for successful response (200 OK)
+    if (response.statusCode == 200) {
+      // Decode the JSON response
+      final decodedData = jsonDecode(response.body);
+
+      // Extract notes from the response (assuming "records" is the key)
+      final notes = (decodedData['records'] as List)
+          .map((record) => record['interaction_notes'] as String)
+          .toList();
+      print(notes);
+      return notes;
+    } else {
+      // Handle error status codes (consider throwing an exception)
+      throw Exception('Failed to fetch notes: ${response.reasonPhrase}');
+    }
+  } catch (error) {
+    // Handle other exceptions (e.g., network errors)
+    throw Exception('Error fetching notes: $error');
+  }
+}
 
 class AllLeadsPage extends StatefulWidget {
   const AllLeadsPage({Key? key, required Map<String, dynamic> data})
@@ -30,7 +81,7 @@ class AllLeadsPage extends StatefulWidget {
 class _AllLeadsPageState extends State<AllLeadsPage> {
   bool isnoteadded = false;
   String editText = '';
-  List<String> notes = [];
+  // List<String> notes = [];
   List<dynamic> fetchLeadList = [];
   bool _isFavorite = false;
   String leadId = '';
@@ -186,6 +237,7 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                     ? filteredList.length ?? 5
                     : fetchLeadList.length,
                 itemBuilder: (context, index) {
+                  List<String> notess = [];
                   final record =
                       iswithfilter ? filteredList[index] : fetchLeadList[index];
                   return Container(
@@ -582,15 +634,17 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                 await showEditTextDialog(
                                   context,
                                   leadId.toString(), // Pass the leadId
-                                  notes, // Assuming 'notes' is a List<String> variable
                                   (String leadId, String note) {
                                     print('Note added for lead $leadId: $note');
                                   },
                                 ).then((value) => {
-                                      setState(() {
-                                        isnoteadded = true;
-                                        notes.add(value);
-                                      })
+                                      fetchNotes("$leadId").then((value) => {
+                                            setState(() {
+                                              print("fjvjisjshu");
+                                              notess = value;
+                                            }),
+                                            print(notess),
+                                          })
                                     });
                               },
                               child: Row(
@@ -706,55 +760,40 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                             ),
                           ],
                         ),
-                        if (isnoteadded)
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: Get.height * 0.01),
+                              if (notess.isNotEmpty)
                                 AppText(
-                                    text: "Customer Notes",
-                                    height: 0.018,
-                                    fontWeight: FontWeight.w500),
-                                SizedBox(height: Get.height * 0.01),
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: notes.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(20),
-                                        // margin: const EdgeInsets.only(bottom: 10),
-                                        decoration: BoxDecoration(
-                                          color: ColorConstants.whiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5)),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AppText(
-                                              text: DateFormat('d MMMM y')
-                                                  .format(DateTime.now()),
-                                              height: 0.018,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            AppText(
-                                              text: notes[index],
-                                              height: 0.018,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            SizedBox(height: Get.height * 0.01),
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                              ],
-                            ),
-                          )
+                                  text: DateFormat('d MMMM y')
+                                      .format(DateTime.now()),
+                                  height: 0.018,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              if (notess.isNotEmpty)
+                                AppText(
+                                  text: notess[notess.length - 1],
+                                  height: 0.018,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              if (notess.isNotEmpty)
+                                AppText(
+                                  text: notess[notess.length - 2],
+                                  height: 0.018,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              if (notess.isNotEmpty)
+                                AppText(
+                                  text: notess[notess.length - 3],
+                                  height: 0.018,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   );

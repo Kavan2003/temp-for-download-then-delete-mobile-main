@@ -512,7 +512,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
                                 showEditTextDialog(
                                   context,
                                   leadId, // Pass the leadId
-                                  notes, // Assuming 'notes' is a List<String> variable
+                                  // notes, // Assuming 'notes' is a List<String> variable
                                   (String leadId, String note) {
                                     // Modify the callback function to accept leadId
                                     // Your logic to handle the added note for the specific lead

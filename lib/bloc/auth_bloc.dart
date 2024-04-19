@@ -40,6 +40,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthOtpLoading());
     var res = jsonDecode(await AuthServices().generateOtp(event.param));
     if (res['status'] == "SUCCESS") {
+      emit(AuthUserNameVerified());
+
       emit(OtpSent(res));
     } else {
       emit(AuthInvalidOtp());

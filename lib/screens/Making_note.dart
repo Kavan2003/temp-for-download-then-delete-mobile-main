@@ -3,7 +3,7 @@ import 'package:lenovo_app/services/add_notes_services.dart';
 import 'package:lenovo_app/utils/app_persist.dart';
 import 'package:lenovo_app/utils/app_strings.dart';
 
-showEditTextDialog(BuildContext context, String leadId, List<String> notes,
+showEditTextDialog(BuildContext context, String leadId,
     Function(String, String) onNoteAdded) async {
   String editText = ''; // Define editText within the function
   String note = '';
