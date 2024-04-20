@@ -140,6 +140,38 @@ class _NewLeadsPageState extends State<NewLeadsPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          children: [
+                            AppText(
+                              text: "${record['lead_id']}",
+                              height: 0.016,
+                              fontWeight: FontWeight.w500,
+                              color: ColorConstants.greyColor,
+                            ),
+                            SizedBox(width: Get.width * 0.02),
+                            Container(
+                                width: 1,
+                                height: Get.height * 0.02,
+                                color: ColorConstants.greyColor),
+                            SizedBox(width: Get.width * 0.02),
+                            AppText(
+                                text: "${record['lead_id']}",
+                                height: 0.016,
+                                fontWeight: FontWeight.w500,
+                                color: ColorConstants.greyColor),
+                            SizedBox(width: Get.width * 0.02),
+                            Container(
+                                width: 1,
+                                height: Get.height * 0.02,
+                                color: ColorConstants.greyColor),
+                            SizedBox(width: Get.width * 0.02),
+                            AppText(
+                                text: "${record['sub_status']} ",
+                                height: 0.016,
+                                fontWeight: FontWeight.w500,
+                                color: ColorConstants.greyColor),
+                          ],
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
