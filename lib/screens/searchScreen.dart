@@ -7,6 +7,7 @@ import 'package:lenovo_app/Widget/appText.dart';
 import 'package:lenovo_app/constants/colorConstants.dart';
 import 'package:lenovo_app/utils/app_persist.dart';
 import 'package:lenovo_app/utils/app_strings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -16,44 +17,64 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
   List<String> searchResults = [];
+  List<String> searchHistory = [];
 
   @override
   void initState() {
     super.initState();
-    // Call the search API function when the screen is initialized
-    search();
+    // Load search history from storage on initialization
+    loadSearchHistory();
   }
 
-  Future<void> search() async {
+  Future<void> loadSearchHistory() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Load search history from shared preferences
+    searchHistory = prefs.getStringList('searchHistory') ?? [];
+    setState(() {});
+  }
+
+  Future<void> saveSearchHistory() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Save search history to shared preferences
+    await prefs.setStringList('searchHistory', searchHistory);
+  }
+
+  Future<void> search(String query) async {
+    final String encodedQuery = Uri.encodeComponent(query);
     final String apiUrl =
-        'https://clms-lenovo1.hashconnect.in/api/ui/search?start=0&size=20&search=Warana%20Arana&page=lead';
+        'https://your-api-url.com/api/search?query=$encodedQuery';
+
     final String token = AppPersist.getString(AppStrings.token, "");
     final Map<String, String> headers = {
       'Authorization': token,
     };
 
-    final response = await http.get(
-      Uri.parse(apiUrl),
-      headers: headers,
-    );
+    final response = await http.get(Uri.parse(apiUrl), headers: headers);
 
     if (response.statusCode == 200) {
-      // If the server returns a 200 OK response, parse the response body
       final Map<String, dynamic> data = json.decode(response.body);
       setState(() {
         searchResults = List<String>.from(data['records'] ?? []);
+        // Add query to search history if not already present
+        if (!searchHistory.contains(query)) {
+          searchHistory.add(query);
+          // Save updated search history
+          saveSearchHistory();
+        }
       });
     } else {
-      // If the server did not return a 200 OK response, print an error message
       print('Failed to search: ${response.statusCode}');
       print(response.body);
     }
   }
 
-  void clearSearchResults() {
+  void clearSearchHistory() {
     setState(() {
-      searchResults.clear();
+      searchHistory.clear();
+      // Clear search history from storage
+      saveSearchHistory();
     });
   }
 
@@ -64,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
         padding: EdgeInsets.only(
           right: Get.width * 0.04,
           left: Get.width * 0.04,
-          top: Get.height * 0.02, // Account for system status bar
+          top: Get.height * 0.02,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,16 +98,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: Get.height * 0.04,
-                      )),
-                  SizedBox(
-                    width: Get.width * 0.03,
+                    onTap: () => Get.back(),
+                    child: Icon(Icons.arrow_back, size: Get.height * 0.04),
                   ),
+                  SizedBox(width: Get.width * 0.03),
                   Expanded(
                     child: Container(
                       height: Get.height * 0.05,
@@ -95,8 +110,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         color: Color(0xffeaeef5),
                       ),
                       child: TextField(
+                        controller: _searchController,
+                        onSubmitted: (value) => search(value),
                         decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.search),
+                            onPressed: () => search(_searchController.text),
+                          ),
                           hintText: 'Type here',
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
@@ -119,7 +139,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     height: 0.018,
                     fontWeight: FontWeight.w500),
                 GestureDetector(
-                  onTap: clearSearchResults,
+                  onTap: clearSearchHistory,
                   child: AppText(
                       text: "Clear all",
                       color: Colors.red,
@@ -129,12 +149,20 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
             ),
             SizedBox(height: Get.height * 0.01),
-            for (String result in searchResults)
-              AppText(
-                  text: result,
-                  color: ColorConstants.greyColor,
-                  height: 0.022,
-                  fontWeight: FontWeight.w500),
+            Expanded(
+              child: ListView.builder(
+                itemCount: searchHistory.length,
+                itemBuilder: (context, index) => ListTile(
+                  title: AppText(
+                    text: searchHistory[index],
+                    color: ColorConstants.greyColor,
+                    height: 0.022,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  onTap: () => search(searchHistory[index]),
+                ),
+              ),
+            ),
           ],
         ),
       ),

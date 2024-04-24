@@ -185,7 +185,6 @@ class _FilterScreenState extends State<FilterScreen> {
                     }
                     _endDateController.clear();
                     _startDateController.clear();
-                    iscleardata = true;
                     // _fetchProduct();
                     // _fetchPurchaseTimeFrame();
                     // _fetchSource();

@@ -28,7 +28,7 @@ class StatusDialogResult {
   StatusDialogResult({this.selectedLeadStatus, this.selectedReason});
 }
 
-Future<StatusDialogResult?> showUpdateStatusDialog(
+Future<StatusDialogResult?> showFolloupUpdateStatusDialog(
     BuildContext context, String itemid) async {
   String? selectedLeadStatus = leadStatusOptions[0];
   String? selectedReason = reasonOptions[0];
@@ -53,7 +53,8 @@ Future<StatusDialogResult?> showUpdateStatusDialog(
   ];
   // Fetch Lead Status data from the first API
   final leadStatusResponse = await http.get(
-    Uri.parse('https://clms-lenovo1.hashconnect.in/api/ui/common/lead-status'),
+    Uri.parse(
+        'https://clms-lenovo1.hashconnect.in/api/lead/common/followup-status-update'),
     headers: {
       'Authorization': '${AppPersist.getString(AppStrings.token, "")}'
     }, // Replace with your actual token

@@ -7,7 +7,7 @@ import 'package:lenovo_app/utils/app_strings.dart';
 Future<Map<String, dynamic>> fetchMobileDashboardData() async {
   // Define the endpoint URL
   final String baseUrl =
-      'https://clms-lenovo1.hashconnect.in/api/ui/common/mobile-dashboard';
+      'https://clms-lenovo1.hashconnect.in/api/ui/common/dashboard-counts';
 
   // Define the query parameters
   final Map<String, String> queryParams = {
@@ -21,7 +21,6 @@ Future<Map<String, dynamic>> fetchMobileDashboardData() async {
   // Define the headers
   final Map<String, String> headers = {
     'Authorization': "${AppPersist.getString(AppStrings.token, "")}"
-        ''
   };
 
   try {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -150,21 +152,19 @@ Future<void> showImageUploadDialog(BuildContext context) async {
 Future<void> addNote(int leadId, String note) async {
   final String apiUrl =
       'https://clms-lenovo1.hashconnect.in/api/lead/common/mobile-add-note';
-  final String token = AppPersist.getString(
-      AppStrings.token, ""); // Replace 'your_token_here' with your actual token
+  final String token = '${AppPersist.getString(AppStrings.token, "")}';
+  final int userId = int.parse(AppPersist.getString(AppStrings.userId, ""));
 
   final Map<String, String> headers = {
     'Authorization': token,
     'Content-Type': 'application/json',
   };
 
-  final String requestBody = '''
-  {
-    "lead_id": $leadId,
-    "user_id": 116,
-    "interaction_notes": "$note"
-  }
-  ''';
+  final String requestBody = json.encode({
+    "lead_id": leadId,
+    "user_id": userId, // Use the dynamically obtained user ID
+    "interaction_notes": note
+  });
 
   final response = await http.post(
     Uri.parse(apiUrl),
@@ -173,12 +173,57 @@ Future<void> addNote(int leadId, String note) async {
   );
 
   if (response.statusCode == 200) {
-    // If the server returns a 200 OK response, print the success message
-    print('Note added successfully');
+    // Parse the response JSON
+    var responseData = json.decode(response.body);
+    if (responseData['status'] == 'SUCCESS') {
+      print('Note added successfully to lead $leadId');
+      // Optionally, you can return the ID of the added note
+      // int noteId = responseData['data']['id'];
+    } else {
+      print('Failed to add note: ${responseData['status']}');
+    }
   } else {
-    // If the server did not return a 200 OK response, print the error message
     print('Failed to add note: ${response.statusCode}');
     print(response.body);
+  }
+}
+
+Future<List<String>> fetchNotes(int leadId) async {
+  final String apiUrl =
+      'https://clms-lenovo1.hashconnect.in/api/lead/common/mobile-add-note?id=$leadId';
+  final String token = '${AppPersist.getString(AppStrings.token, "")}';
+  // ignore: unused_local_variable
+  final int userId = int.parse(AppPersist.getString(AppStrings.userId, ""));
+
+  final Map<String, String> headers = {
+    'Authorization': token,
+    'Content-Type': 'application/json',
+  };
+
+  try {
+    final response = await http.get(
+      Uri.parse(apiUrl),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the notes data
+      var responseData = json.decode(response.body);
+      List<String> notes = []; // Initialize the notes list
+      for (var record in responseData['records']) {
+        notes.add(record['interaction_notes']);
+      }
+      print('Notes fetched successfully: $notes');
+      return notes;
+    } else {
+      // If the server did not return a 200 OK response, print the error message
+      print('Failed to fetch notes: ${response.statusCode}');
+      print(response.body);
+      throw Exception('Failed to fetch notes: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error fetching notes: $e');
+    throw e; // Re-throw the exception to handle it where fetchNotes is called
   }
 }
 
@@ -237,6 +282,7 @@ Future<void> showEditTextDialog(
                         icon: Icon(Icons.save),
                         onPressed: () async {
                           if (editText.isNotEmpty) {
+                            // Add the lead ID to the addNote function call
                             await addNote(leadId, editText);
                             onNoteAdded(editText);
                             setState(() {

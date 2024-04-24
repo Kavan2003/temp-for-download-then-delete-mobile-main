@@ -2,16 +2,26 @@ import 'package:http/http.dart' as http;
 import 'package:lenovo_app/utils/app_persist.dart';
 import 'package:lenovo_app/utils/app_strings.dart';
 
-Future<void> search() async {
+Future<void> search(String searchQuery) async {
   final String apiUrl =
-      'https://clms-lenovo1.hashconnect.in/api/ui/search?start=0&size=20&search=Warana%20Arana&page=lead';
+      'https://clms-lenovo1.hashconnect.in/api/lead/common/search';
   final String token = AppPersist.getString(AppStrings.token, "");
+
+  final Map<String, String> queryParams = {
+    'start': '0',
+    'size': '10',
+    'searchLike': searchQuery,
+    'page': 'follow_up',
+  };
+
+  final Uri uri = Uri.parse(apiUrl).replace(queryParameters: queryParams);
+
   final Map<String, String> headers = {
     'Authorization': token,
   };
 
   final response = await http.get(
-    Uri.parse(apiUrl),
+    uri,
     headers: headers,
   );
 

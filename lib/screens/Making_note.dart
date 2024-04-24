@@ -3,16 +3,22 @@ import 'package:lenovo_app/services/add_notes_services.dart';
 import 'package:lenovo_app/utils/app_persist.dart';
 import 'package:lenovo_app/utils/app_strings.dart';
 
-showEditTextDialog(BuildContext context, String leadId,
-    Function(String, String) onNoteAdded) async {
-  String editText = ''; // Define editText within the function
-  String note = '';
+showEditTextDialog(
+  BuildContext context,
+  String leadId,
+  Function(String, List<String>) onNoteAdded,
+  Null Function(String leadId, String note) param3,
+) async {
+  String editText = ''; // User input for the note
+
   return showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        topLeft: Radius.circular(10),
+        topRight: Radius.circular(10),
+      ),
     ),
     builder: (BuildContext context) {
       return StatefulBuilder(
@@ -31,10 +37,9 @@ showEditTextDialog(BuildContext context, String leadId,
                       CircleAvatar(
                         radius: 20,
                         backgroundColor: const Color.fromARGB(255, 255, 0, 0),
-                        // Replace with user profile photo
                         backgroundImage: NetworkImage(
-                            AppPersist.getString(AppStrings.userimage, "")),
-                        // AssetImage('assets/user-image.png'),
+                          AppPersist.getString(AppStrings.userimage, ""),
+                        ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
@@ -46,8 +51,8 @@ showEditTextDialog(BuildContext context, String leadId,
                           },
                           autofocus: true,
                           decoration: const InputDecoration(
-                            hintText: 'Add note here', // Placeholder text
-                            border: InputBorder.none, // Remove border
+                            hintText: 'Add note here',
+                            border: InputBorder.none,
                           ),
                         ),
                       ),
@@ -56,14 +61,14 @@ showEditTextDialog(BuildContext context, String leadId,
                         icon: const Icon(Icons.save),
                         onPressed: () async {
                           if (editText.isNotEmpty) {
-                            await addNote(int.tryParse(leadId) ?? 0, editText);
-                            onNoteAdded(leadId, editText);
-                            setState(() {
-                              note = editText;
-                              editText = '';
-                            });
+                            int parsedLeadId = int.tryParse(leadId) ?? 0;
+                            await addNote(parsedLeadId, editText);
+                            // After adding a note, fetch the updated list of notes
+                            List<String> updatedNotes =
+                                await fetchNotes(parsedLeadId);
+                            onNoteAdded(leadId, updatedNotes);
+                            Navigator.of(context).pop();
                           }
-                          Navigator.of(context).pop('$note');
                         },
                       ),
                     ],

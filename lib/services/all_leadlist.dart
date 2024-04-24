@@ -4,13 +4,19 @@ import 'dart:convert';
 import 'package:lenovo_app/utils/app_persist.dart';
 import 'package:lenovo_app/utils/app_strings.dart';
 
-Future<List<dynamic>> fetchLeadData() async {
+Future<List<dynamic>> fetchLeadData(int start, int size) async {
   final String apiUrl =
       'https://clms-lenovo1.hashconnect.in/api/lead/common/leadList';
   final String token = AppPersist.getString(AppStrings.token, "");
+
+  // If start is greater than 0, we want to restart from the beginning
+  if (start > 0) {
+    start = 0;
+  }
+
   final Map<String, String> queryParams = {
-    'start': '0',
-    'size': '10',
+    'start': '$start',
+    'size': '$size',
   };
 
   final Uri uri = Uri.parse(apiUrl).replace(queryParameters: queryParams);

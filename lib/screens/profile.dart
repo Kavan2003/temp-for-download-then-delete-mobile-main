@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lenovo_app/Widget/appText.dart';
 import 'package:lenovo_app/constants/colorConstants.dart';
 import 'package:lenovo_app/constants/imageConstants.dart';
+import 'package:lenovo_app/screens/auth/login_page.dart';
 import 'package:lenovo_app/screens/user_profile_info.dart';
 import 'package:lenovo_app/utils/app_persist.dart';
 import 'package:lenovo_app/utils/app_strings.dart';
@@ -95,7 +96,17 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  @override
+  Future<void> logout() async {
+    // Example: Clear user data stored in shared preferences or any other storage
+    // await SharedPreferences.getInstance().then((prefs) {
+    //   prefs.remove('isLoggedIn');
+    // });
+
+    // Using GetX to navigate to Login Page and remove all previous routes
+    Get.offAll(
+        () => LoginPage()); // Replace LoginPage with your login page widget
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,7 +177,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                Icon(Icons.logout_sharp)
+                GestureDetector(
+                  onTap: () async {
+                    await logout();
+                  },
+                  child: Icon(
+                    Icons.logout_sharp,
+                    size: Get.width * 0.06,
+                  ),
+                ),
               ],
             ),
             SizedBox(

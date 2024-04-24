@@ -324,51 +324,69 @@ class _AcceptedLeadsPageState extends State<AcceptedLeadsPage> {
                                           children: [
                                             GestureDetector(
                                               onTap: () async {
-                                                String linkedInUrl =
-                                                    "link_here"; // Replace "link_here" with the actual LinkedIn profile link
-                                                if (await canLaunch(
-                                                    Uri.parse(linkedInUrl)
-                                                        .toString())) {
-                                                  await launch(
-                                                      Uri.parse(linkedInUrl)
-                                                          .toString());
-                                                } else {
+                                                // Set the target Twitter URL
+                                                String targetUrl =
+                                                    "https://www.linkedin.com/home"; // Replace with the desired Twitter URL
+
+                                                // Retrieve the URL from the API response (placeholder for your logic)
+                                                String? twitterUrl =
+                                                    record['twitter'];
+
+                                                // Validate and prioritize the retrieved URL if available
+                                                if (twitterUrl != null) {
+                                                  // Use toString() for debugging purposes (not strict validation)
                                                   print(
-                                                      'Could not launch $linkedInUrl');
+                                                      "API URL: ${twitterUrl.toString()}");
+
+                                                  launchUrl(
+                                                      Uri.parse(twitterUrl));
+                                                } else {
+                                                  // Fallback to the target URL
+                                                  launchUrl(
+                                                      Uri.parse(targetUrl));
+                                                  print(
+                                                      "Using fallback Twitter URL: $targetUrl");
                                                 }
                                               },
                                               child: SvgPicture.asset(
                                                 ImageConstants.linkDinSvg,
-                                                width:
-                                                    30, // Adjust the width as needed
-                                                height:
-                                                    30, // Adjust the height as needed
-                                                // Add any additional properties for the SVG image as needed
+                                                width: 33,
+                                                height: 33,
                                               ),
                                             ),
                                             SizedBox(width: Get.width * 0.02),
                                             GestureDetector(
                                               onTap: () async {
-                                                String crossUrl =
-                                                    "link_here"; // Replace "link_here" with the actual cross link
-                                                if (await canLaunchUrl(
-                                                    Uri.parse(crossUrl))) {
-                                                  await launchUrl(
-                                                      Uri.parse(crossUrl));
-                                                } else {
+                                                // Set the target Twitter URL
+                                                String targetUrl =
+                                                    "https://twitter.com"; // Replace with the desired Twitter URL
+
+                                                // Retrieve the URL from the API response (placeholder for your logic)
+                                                String? twitterUrl =
+                                                    record['twitter'];
+
+                                                // Validate and prioritize the retrieved URL if available
+                                                if (twitterUrl != null) {
+                                                  // Use toString() for debugging purposes (not strict validation)
                                                   print(
-                                                      'Could not launch $crossUrl');
+                                                      "API URL: ${twitterUrl.toString()}");
+
+                                                  launchUrl(
+                                                      Uri.parse(twitterUrl));
+                                                } else {
+                                                  // Fallback to the target URL
+                                                  launchUrl(
+                                                      Uri.parse(targetUrl));
+                                                  print(
+                                                      "Using fallback Twitter URL: $targetUrl");
                                                 }
                                               },
                                               child: SvgPicture.asset(
                                                 ImageConstants.crossSvg,
-                                                width:
-                                                    30, // Adjust the width as needed
-                                                height:
-                                                    30, // Adjust the height as needed
-                                                // Add any additional properties for the SVG image as needed
+                                                width: 33,
+                                                height: 33,
                                               ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ],
@@ -401,7 +419,7 @@ class _AcceptedLeadsPageState extends State<AcceptedLeadsPage> {
                                               width: Get.width * 0.7,
                                               child: AppText(
                                                 text:
-                                                    "product_group: ${record['product_group']}",
+                                                    "product: ${record['product_group']}",
                                                 height: 0.018,
                                                 fontWeight: FontWeight.w500,
                                                 color: ColorConstants.greyColor,
@@ -486,7 +504,46 @@ class _AcceptedLeadsPageState extends State<AcceptedLeadsPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            //fetchAcceptedLeads
+                            GestureDetector(
+                              onTap: () async {
+                                var record = acceptedLeads[
+                                    index]; // Access the current record from acceptedLeads list
+                                var leadId = record['lead_id']
+                                    .toString(); // Assuming 'lead_id' is the key for leadId in your record
+                                List<String> notes =
+                                    []; // Initialize notes list
+
+                                await showEditTextDialog(
+                                  context,
+                                  leadId,
+                                  notes as Function(String p1, List<String> p2),
+                                  (String leadId, String note) {
+                                    print('Note added for lead $leadId: $note');
+                                    // Handle the added note here if needed
+                                  },
+                                ).then((value) {
+                                  if (value != null && value.isNotEmpty) {
+                                    setState(() {
+                                      isnoteadded = true;
+                                      notes.add(
+                                        value,
+                                      ); // Add the returned note to the 'notes' list
+                                    });
+                                  }
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.note_add_outlined),
+                                  AppText(
+                                    text: "Add Note",
+                                    height: 0.018,
+                                    color: ColorConstants.greyColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              ),
+                            ),
                             Container(
                               height: Get.height * 0.08,
                               width: 1,

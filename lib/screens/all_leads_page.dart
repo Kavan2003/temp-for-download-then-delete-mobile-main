@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:intl/intl.dart';
 import 'package:lenovo_app/Widget/appText.dart';
 import 'package:lenovo_app/constants/colorConstants.dart';
@@ -17,58 +14,8 @@ import 'package:lenovo_app/screens/Making_note.dart';
 import 'package:lenovo_app/screens/filterScreen.dart';
 import 'package:lenovo_app/screens/searchScreen.dart';
 import 'package:lenovo_app/screens/update_note.dart';
-import 'package:lenovo_app/services/accept_lead_filter.dart';
 import 'package:lenovo_app/services/all_leadlist.dart';
-import 'package:lenovo_app/utils/app_persist.dart';
-import 'package:lenovo_app/utils/app_strings.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-Future<List<String>> fetchNotes(String id) async {
-  // Construct the API request URL
-  // final url = Uri.parse(
-  //     '');
-
-  // Create a GET request with authorization header
-  // final request = http.Request('GET', url);
-  // request.headers.addAll({
-  //   'Authorization': AppPersist.getString(AppStrings.token, ""),
-  // });
-
-  try {
-    // final response = await request.send();
-    final String apiUrl =
-        'https://clms-lenovo1.hashconnect.in/api/lead/common/mobile-add-note?id=$id';
-    final String token = AppPersist.getString(AppStrings.token, "");
-    final Map<String, String> headers = {
-      'Authorization': token,
-      'Content-Type': 'application/json',
-    };
-
-    final response = await http.get(
-      Uri.parse(apiUrl),
-      headers: headers,
-    );
-
-    // Check for successful response (200 OK)
-    if (response.statusCode == 200) {
-      // Decode the JSON response
-      final decodedData = jsonDecode(response.body);
-
-      // Extract notes from the response (assuming "records" is the key)
-      final notes = (decodedData['records'] as List)
-          .map((record) => record['interaction_notes'] as String)
-          .toList();
-      print(notes);
-      return notes;
-    } else {
-      // Handle error status codes (consider throwing an exception)
-      throw Exception('Failed to fetch notes: ${response.reasonPhrase}');
-    }
-  } catch (error) {
-    // Handle other exceptions (e.g., network errors)
-    throw Exception('Error fetching notes: $error');
-  }
-}
 
 class AllLeadsPage extends StatefulWidget {
   const AllLeadsPage({Key? key, required Map<String, dynamic> data})
@@ -81,7 +28,7 @@ class AllLeadsPage extends StatefulWidget {
 class _AllLeadsPageState extends State<AllLeadsPage> {
   bool isnoteadded = false;
   String editText = '';
-  // List<String> notes = [];
+  List<String> notes = [];
   List<dynamic> fetchLeadList = [];
   bool _isFavorite = false;
   String leadId = '';
@@ -113,17 +60,17 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
   @override
   void initState() {
     super.initState();
-    _fetchLeadData(); // Call the fetchLeadData function
+    _fetchLeadData(0, 10); // Call the fetchLeadData function
   }
 
-  Future<void> _fetchLeadData() async {
-    fetchLeadList = [];
+  Future<void> _fetchLeadData(int start, int size) async {
     try {
-      final List<dynamic> data =
-          await fetchLeadData(); // Call fetchLeadData and await the result
-      setState(() {
-        fetchLeadList = data;
-      });
+      final List<dynamic> data = await fetchLeadData(start, size);
+      if (mounted) {
+        setState(() {
+          fetchLeadList = data;
+        });
+      }
     } catch (error) {
       print('Error fetching follow-up leads data: $error');
     }
@@ -147,12 +94,10 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(const SearchScreen());
+                      Get.to(SearchScreen());
                     },
                     child: Container(
-                      // search9do (15:7723)
                       margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      // padding:  EdgeInsets.fromLTRB(16, 15, 10, 16),
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       height: double.infinity,
                       width: Get.width * 0.8,
@@ -160,7 +105,7 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                         color: const Color(0xffeaeef5),
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      child: const Row(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -234,10 +179,9 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
             child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: iswithfilter
-                    ? filteredList.length ?? 5
+                    ? filteredList.length ?? 80
                     : fetchLeadList.length,
                 itemBuilder: (context, index) {
-                  List<String> notess = [];
                   final record =
                       iswithfilter ? filteredList[index] : fetchLeadList[index];
                   return Container(
@@ -260,38 +204,6 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            AppText(
-                              text: "${record['lead_id']}",
-                              height: 0.016,
-                              fontWeight: FontWeight.w500,
-                              color: ColorConstants.greyColor,
-                            ),
-                            SizedBox(width: Get.width * 0.02),
-                            Container(
-                                width: 1,
-                                height: Get.height * 0.02,
-                                color: ColorConstants.greyColor),
-                            SizedBox(width: Get.width * 0.02),
-                            AppText(
-                                text: "${record['lead_id']}",
-                                height: 0.016,
-                                fontWeight: FontWeight.w500,
-                                color: ColorConstants.greyColor),
-                            SizedBox(width: Get.width * 0.02),
-                            Container(
-                                width: 1,
-                                height: Get.height * 0.02,
-                                color: ColorConstants.greyColor),
-                            SizedBox(width: Get.width * 0.02),
-                            AppText(
-                                text: "${record['sub_status']} ",
-                                height: 0.016,
-                                fontWeight: FontWeight.w500,
-                                color: ColorConstants.greyColor),
-                          ],
-                        ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -338,9 +250,12 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                 height: Get.height * 0.02,
                               ),
                               AppText(
-                                  text: '${record['company']}',
-                                  height: 0.03,
-                                  fontWeight: FontWeight.w700),
+                                text: '${record['company']}',
+                                height: 0.03,
+                                fontWeight: FontWeight.w700,
+                                textAlign: TextAlign
+                                    .start, // Align text to the end (right)
+                              ),
                               SizedBox(
                                 height: Get.height * 0.02,
                               ),
@@ -378,7 +293,8 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                           ),
                                           SizedBox(width: Get.width * 0.02),
                                           AppText(
-                                            text: "${record['sub_status']}",
+                                            text:
+                                                "${record['lead_sub_status']}",
                                             height: 0.016,
                                             fontWeight: FontWeight.w500,
                                             color: ColorConstants.greyColor,
@@ -482,7 +398,7 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                         SizedBox(
                                           width: Get.width * 0.6,
                                           child: AppText(
-                                              text: "${record['source']}",
+                                              text: "${record['lead_name']}",
                                               height: 0.02,
                                               fontWeight: FontWeight.w700),
                                         ),
@@ -490,51 +406,69 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                           children: [
                                             GestureDetector(
                                               onTap: () async {
-                                                String linkedInUrl =
-                                                    "link_here"; // Replace "link_here" with the actual LinkedIn profile link
-                                                if (await canLaunch(
-                                                    Uri.parse(linkedInUrl)
-                                                        .toString())) {
-                                                  await launch(
-                                                      Uri.parse(linkedInUrl)
-                                                          .toString());
-                                                } else {
+                                                // Set the target Twitter URL
+                                                String targetUrl =
+                                                    "https://www.linkedin.com/home"; // Replace with the desired Twitter URL
+
+                                                // Retrieve the URL from the API response (placeholder for your logic)
+                                                String? twitterUrl =
+                                                    record['twitter'];
+
+                                                // Validate and prioritize the retrieved URL if available
+                                                if (twitterUrl != null) {
+                                                  // Use toString() for debugging purposes (not strict validation)
                                                   print(
-                                                      'Could not launch $linkedInUrl');
+                                                      "API URL: ${twitterUrl.toString()}");
+
+                                                  launchUrl(
+                                                      Uri.parse(twitterUrl));
+                                                } else {
+                                                  // Fallback to the target URL
+                                                  launchUrl(
+                                                      Uri.parse(targetUrl));
+                                                  print(
+                                                      "Using fallback Twitter URL: $targetUrl");
                                                 }
                                               },
                                               child: SvgPicture.asset(
                                                 ImageConstants.linkDinSvg,
-                                                width:
-                                                    30, // Adjust the width as needed
-                                                height:
-                                                    30, // Adjust the height as needed
-                                                // Add any additional properties for the SVG image as needed
+                                                width: 33,
+                                                height: 33,
                                               ),
                                             ),
                                             SizedBox(width: Get.width * 0.02),
                                             GestureDetector(
                                               onTap: () async {
-                                                String crossUrl =
-                                                    "link_here"; // Replace "link_here" with the actual cross link
-                                                if (await canLaunchUrl(
-                                                    Uri.parse(crossUrl))) {
-                                                  await launchUrl(
-                                                      Uri.parse(crossUrl));
-                                                } else {
+                                                // Set the target Twitter URL
+                                                String targetUrl =
+                                                    "https://twitter.com"; // Replace with the desired Twitter URL
+
+                                                // Retrieve the URL from the API response (placeholder for your logic)
+                                                String? twitterUrl =
+                                                    record['twitter'];
+
+                                                // Validate and prioritize the retrieved URL if available
+                                                if (twitterUrl != null) {
+                                                  // Use toString() for debugging purposes (not strict validation)
                                                   print(
-                                                      'Could not launch $crossUrl');
+                                                      "API URL: ${twitterUrl.toString()}");
+
+                                                  launchUrl(
+                                                      Uri.parse(twitterUrl));
+                                                } else {
+                                                  // Fallback to the target URL
+                                                  launchUrl(
+                                                      Uri.parse(targetUrl));
+                                                  print(
+                                                      "Using fallback Twitter URL: $targetUrl");
                                                 }
                                               },
                                               child: SvgPicture.asset(
                                                 ImageConstants.crossSvg,
-                                                width:
-                                                    30, // Adjust the width as needed
-                                                height:
-                                                    30, // Adjust the height as needed
-                                                // Add any additional properties for the SVG image as needed
+                                                width: 33,
+                                                height: 33,
                                               ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ],
@@ -567,7 +501,7 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                               width: Get.width * 0.7,
                                               child: AppText(
                                                 text:
-                                                    "product_group: ${record['product_group']}",
+                                                    "product: ${record['product_group']}",
                                                 height: 0.018,
                                                 fontWeight: FontWeight.w500,
                                                 color: ColorConstants.greyColor,
@@ -655,29 +589,35 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            // Inside the GestureDetector where you call showEditTextDialog
-// Inside the GestureDetector where you call showEditTextDialog
                             GestureDetector(
                               onTap: () async {
-                                var record = fetchLeadList[
-                                    index]; // Access the current record from fetchLeadList
-                                var leadId = record[
-                                    'lead_id']; // Assuming 'lead_id' is the key for leadId in your record
+                                var data = await fetchLeadData(index,
+                                    1); // Assuming fetchLeadData returns a list of records
+                                var record = data
+                                    .first; // Assuming fetchLeadData returns a list of records
+                                var leadId = record['lead_id']
+                                    .toString(); // Assuming 'lead_id' is the key for leadId in your record
+                                List<String> notes =
+                                    []; // Initialize notes list
+
                                 await showEditTextDialog(
                                   context,
-                                  leadId.toString(), // Pass the leadId
+                                  leadId,
+                                  (String leadId, List<String> notes) {
+                                    // Handle notes here if needed
+                                  },
                                   (String leadId, String note) {
                                     print('Note added for lead $leadId: $note');
-                                  },
-                                ).then((value) => {
-                                      fetchNotes("$leadId").then((value) => {
-                                            setState(() {
-                                              print("fjvjisjshu");
-                                              notess = value;
-                                            }),
-                                            print(notess),
-                                          })
+                                    // Handle the added note here if needed
+                                    setState(() {
+                                      isnoteadded = true;
+                                      notes.add(
+                                          note); // Add the returned note to the 'notes' list
                                     });
+                                  },
+                                ).then((value) {
+                                  // Do something after the dialog is closed if needed
+                                });
                               },
                               child: Row(
                                 children: [
@@ -687,11 +627,10 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                     height: 0.018,
                                     color: ColorConstants.greyColor,
                                     fontWeight: FontWeight.w500,
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
-
                             Container(
                               height: Get.height * 0.08,
                               width: 1,
@@ -704,7 +643,7 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                                     context, record['lead_id'].toString());
                                 if (update != null) {
                                   log("_fetchLeadData");
-                                  await _fetchLeadData();
+                                  await _fetchLeadData(0, 10);
                                 }
                               },
                               child: Row(
@@ -792,40 +731,61 @@ class _AllLeadsPageState extends State<AllLeadsPage> {
                             ),
                           ],
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: Get.height * 0.01),
-                              if (notess.isNotEmpty)
+                        if (isnoteadded)
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 AppText(
-                                  text: DateFormat('d MMMM y')
-                                      .format(DateTime.now()),
-                                  height: 0.018,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              if (notess.isNotEmpty)
-                                AppText(
-                                  text: notess[notess.length - 1],
-                                  height: 0.018,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              if (notess.isNotEmpty)
-                                AppText(
-                                  text: notess[notess.length - 2],
-                                  height: 0.018,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              if (notess.isNotEmpty)
-                                AppText(
-                                  text: notess[notess.length - 3],
-                                  height: 0.018,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                            ],
-                          ),
-                        )
+                                    text: "Customer Notes",
+                                    height: 0.018,
+                                    fontWeight: FontWeight.w500),
+                                SizedBox(height: Get.height * 0.01),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: notes.length,
+                                  itemBuilder: (context, index) {
+                                    // Filter out empty or null notes
+                                    if (notes[index]?.isNotEmpty ?? false) {
+                                      return Container(
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: BoxDecoration(
+                                          color: ColorConstants.whiteColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                            color: Colors.grey.withOpacity(0.5),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            AppText(
+                                              text: DateFormat('d MMMM y')
+                                                  .format(DateTime.now()),
+                                              height: 0.018,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            AppText(
+                                              text: notes[index],
+                                              height: 0.018,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            SizedBox(height: Get.height * 0.01),
+                                          ],
+                                        ),
+                                      );
+                                    } else {
+                                      // Return an empty Container if the note is empty or null
+                                      return Container();
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          )
                       ],
                     ),
                   );
