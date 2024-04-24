@@ -44,6 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(OtpSent(res));
     } else {
+      emit(AuthInvalidUser());
       emit(AuthInvalidOtp());
     }
   }

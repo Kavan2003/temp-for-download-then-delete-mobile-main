@@ -34,9 +34,17 @@ class _PhoneState extends State<Phone> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthUserNameVerified) {
+          print("dsfsnjnsdfvsdddddddddddddddddddda");
+
           setState(() {
             userNameVerified = true;
+            loadingIsEnabled = false;
           });
+          print("dsfsnjnsdfvsdddddddddddddddddddda");
+        }
+        if (state is AuthInvalidUser) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Username not found')));
         }
       },
       child: Form(
@@ -207,13 +215,20 @@ class _PhoneState extends State<Phone> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: ColorConstants.redColor),
                     onPressed: () {
+                      setState(() {
+                        //      loadingIsEnabled = true;
+                      });
+                      print("dsfsnjna");
+
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         if (!userNameVerified) {
+                          print("dsfsnjna");
                           Map<String, dynamic> param = {"un": _phone.text};
 
                           BlocProvider.of<AuthBloc>(context)
                               .add(AuthGenerateOtp(param));
+                          print("dsfsnjna");
                         } else {
                           Map<String, dynamic> param = {
                             "un": _phone.text,
